@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "49aa1a6f-6331-460b-a1f6-c207a0fc80da": {
+      "ProjectGuid": "49aa1a6f-6331-460b-a1f6-c207a0fc80da",
+      "DisplayName": "GameTcpServer",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}

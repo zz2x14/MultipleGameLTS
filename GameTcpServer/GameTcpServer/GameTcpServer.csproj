@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MySql.Data" Version="8.0.30" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Protos" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Google.Protobuf">
+        <HintPath>I:\zhuomian\Protobuf\protobuf-3.21.5\csharp\src\Google.Protobuf\bin\Debug\net45\Google.Protobuf.dll</HintPath>
+      </Reference>
+      <Reference Include="System.Buffers">
+        <HintPath>I:\zhuomian\Protobuf\protobuf-3.21.5\csharp\src\Google.Protobuf\bin\Debug\net45\System.Buffers.dll</HintPath>
+      </Reference>
+      <Reference Include="System.Memory">
+        <HintPath>I:\zhuomian\Protobuf\protobuf-3.21.5\csharp\src\Google.Protobuf\bin\Debug\net45\System.Memory.dll</HintPath>
+      </Reference>
+      <Reference Include="System.Runtime.CompilerServices.Unsafe">
+        <HintPath>I:\zhuomian\Protobuf\protobuf-3.21.5\csharp\src\Google.Protobuf\bin\Debug\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+</Project>

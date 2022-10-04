@@ -1,0 +1,7 @@
+﻿syntax = "proto3";
+
+message ResponseNetMsg{
+	sfixed32 msgID = 1;
+	sfixed32 msgLength = 2;
+	sfixed32 responseID = 3;
+}

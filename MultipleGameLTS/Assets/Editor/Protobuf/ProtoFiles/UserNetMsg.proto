@@ -1,0 +1,10 @@
+﻿syntax = "proto3";
+
+message UserNetMsg
+{
+	sfixed32 msgID = 1;
+	sfixed32 msgLength = 2;
+	sfixed32 userID = 3;
+	string accountNum = 4;
+	string password = 5;
+}
