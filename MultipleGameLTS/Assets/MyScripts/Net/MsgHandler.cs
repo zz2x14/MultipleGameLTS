@@ -150,7 +150,17 @@ public class MsgHandler
 
     private void MatchGameMsgHandler(INetMsg msg)
     {
-        
+	    var matchGameMsg = msg as MatchGameNetMsg;
+	    
+	    if(!matchGameMsg.DoMatch)
+	    {
+            Debug.Log("取消匹配");
+        }
+        else
+        {
+            GameManager.Instance.MatchingID = matchGameMsg.MatchingPoolID;
+            Debug.Log($"加入到{matchGameMsg.MatchingPoolID}匹配池中等待匹配完成");
+        }
     }
     
 }

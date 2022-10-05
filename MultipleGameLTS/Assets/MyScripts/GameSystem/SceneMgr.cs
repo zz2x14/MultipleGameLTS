@@ -54,6 +54,8 @@ public class SceneMgr : MonoBehaviour
 
         //加载完场景后停留等待短暂的时间继续执行操作
         yield return afterSceneLoadWFS;
+
+        Instantiate(Resources.Load<GameObject>(GameManager.PATH_PREFAB_UI_MATCHGAME));
         
         GameManager.Instance.NewNetPlayer(selfNetID);
         

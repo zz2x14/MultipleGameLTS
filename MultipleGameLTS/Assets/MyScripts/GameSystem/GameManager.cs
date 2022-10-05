@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -25,6 +25,9 @@ public class GameManager : MonoBehaviour
 
     //Sign:Resources加载文件不需要后缀 
     public const string PATH_PREFAB_PLAYER = "Prefabs/Prefab_NetPlayer";
+    public const string PATH_PREFAB_UI_MATCHGAME = "Prefabs/Prefab_Cv_MatchGame";
+   
+	public int MatchingID { get; set; }
    
     private void Awake()
     {

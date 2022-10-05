@@ -34,10 +34,6 @@ public class ServerSocket
 
     private Dictionary<int, MatchingPool> matchingPoolDic = new Dictionary<int, MatchingPool>();
 
-
-    /// <summary>
-    /// 通过构造函数开启服务器并进行异步接入
-    /// </summary>
     public ServerSocket()
     {
         tcpServerSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -311,23 +307,28 @@ public class ServerSocket
     }
 
     //TODO:应该将匹配池和匹配池的玩家放在数据库中
-    public void JoinAvailableMatchingPool(MatchGameNetMsg matchGameNetMsg)
+    public void JoinAvailableMatchingPool(ref MatchGameNetMsg matchGameNetMsg)
     {
-        if (netPlayerDic.ContainsKey(matchGameNetMsg.NetID))
+        if (netPlayerDic.ContainsKey(matchGameNetMsg.PlayerNetID))
         {
             if (matchingPoolDic.Count == 0)
             {
                 MatchingPool newPool = new MatchingPool(this);
-                newPool.Join(matchGameNetMsg.NetID,netPlayerDic[matchGameNetMsg.NetID]);
+                newPool.Join(matchGameNetMsg.PlayerNetID,netPlayerDic[matchGameNetMsg.PlayerNetID]);
+
+                matchGameNetMsg.MatchingPoolID = newPool.CurPoolID;
             }
             else
             {
                 foreach (var matchingPool in matchingPoolDic.Values.Where(matchingPool => matchingPool.PoolState is MatchingPoolState.Wating or MatchingPoolState.Empty))
                 {
-                    matchingPool.Join(matchGameNetMsg.NetID,netPlayerDic[matchGameNetMsg.NetID]);
+                    matchingPool.Join(matchGameNetMsg.PlayerNetID,netPlayerDic[matchGameNetMsg.PlayerNetID]);
+                    
+                    matchGameNetMsg.MatchingPoolID = matchingPool.CurPoolID;
                     break;
                 }
             }
+            
         }
         else
         {
@@ -336,6 +337,22 @@ public class ServerSocket
         }
         
     }
+
+    public void LeaveMatchingPool(MatchGameNetMsg matchGameNetMsg)
+    {
+        if (matchingPoolDic.ContainsKey(matchGameNetMsg.MatchingPoolID))
+        {
+            matchingPoolDic[matchGameNetMsg.MatchingPoolID].Leave(matchGameNetMsg.PlayerNetID);
+        }
+        else
+        {
+            //TODO:匹配池ID不合理
+            //几乎不会出现这种情况，但是还是要考虑
+        }
+    }
+    
+    
+
 }
 
 

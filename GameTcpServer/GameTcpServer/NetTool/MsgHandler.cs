@@ -142,8 +142,19 @@
      private void MatchGameMsgHandler(INetMsg msg,ClientSocket client)
      {
          var matchGameMsg = msg as MatchGameNetMsg;
+
+         if (matchGameMsg.DoMatch)
+         {
+             server.JoinAvailableMatchingPool(ref matchGameMsg);
+         }
+         else
+         {
+             server.LeaveMatchingPool(matchGameMsg);
+         }
          
-         server.JoinAvailableMatchingPool(matchGameMsg);
+         server.SendMsgToOne(client.ClientID,matchGameMsg);
+
      }
-     
+
+   
  }
