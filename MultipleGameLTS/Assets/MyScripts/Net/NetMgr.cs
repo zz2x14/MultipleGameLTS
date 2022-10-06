@@ -174,12 +174,7 @@ public class NetMgr : MonoBehaviour
             {
                 INetMsg msg = null;
                 msg = msgHandler.GetNetMsg(msgID, receiveBuffer, startIndex);
-
-                /*if (msg.GetType() == typeof(RequestMulNetIDMsg))
-                {
-                    Debug.Log((msg as RequestMulNetIDMsg).NetGOIDList.Count);
-                }*/
-
+                
                 if (msg == null)
                 {
                     Debug.LogWarning("收到未知类型消息：" + msgID);

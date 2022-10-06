@@ -51,6 +51,8 @@ public class ServerSocket
 
             MatchingPool preparedPool = new MatchingPool(this);
             matchingPoolDic.Add(preparedPool.CurPoolID,preparedPool);
+
+            ThreadPool.QueueUserWorkItem(OperateMatchingPool, null);
             
             tcpServerSocket.BeginAccept(AcceptCallback, tcpServerSocket);
 
@@ -350,7 +352,30 @@ public class ServerSocket
             //几乎不会出现这种情况，但是还是要考虑
         }
     }
-    
+
+    public void OperateMatchingPool(object o)
+    {
+        while (tcpServerSocket.Connected)
+        {
+            //检测满了的匹配池是否状态错误 TODO:还应检测waiting状态
+            foreach (var matchingPool in matchingPoolDic.Values.Where(matchingPool => matchingPool.CurPlayerCount == matchingPool.TargetPlayerCount 
+                         &&  matchingPool.PoolState != MatchingPoolState.Full))
+            {
+                matchingPool.PoolState = MatchingPoolState.Full;
+            }
+            
+            //TODO：真实至少两个玩家在线才能匹配，为了测试改为一个
+            
+            if (clientDic.Count > 0 && netPlayerDic.Count > 0 && matchingPoolDic.Count > 0)
+            {
+                foreach (var fullPool in matchingPoolDic.Values.Where(fullPool => fullPool.PoolState == MatchingPoolState.Full))
+                {
+                    fullPool.MatchOver();
+                }
+            }
+            
+        }
+    }
     
 
 }

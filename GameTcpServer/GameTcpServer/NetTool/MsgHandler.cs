@@ -14,6 +14,7 @@
      private const int ID_NETMSG_REQUIRE = 1006;
      private const int ID_NETMSG_MULNETID = 1007;
      private const int ID_NETMSG_MATCHGAME = 1009;
+     private const int ID_NETMSG_GAMESTART = 1010;
      private const int ID_NETMSG_RESPONSE = 1999;
      
      public const int ID_RESPONSE_LOGIN = 1;
@@ -154,6 +155,11 @@
          
          server.SendMsgToOne(client.ClientID,matchGameMsg);
 
+     }
+     
+     private void GameStartMsgHandler(INetMsg msg,ClientSocket client)
+     {
+        //客户端暂时不会向服务器发送游戏开始消息
      }
 
    

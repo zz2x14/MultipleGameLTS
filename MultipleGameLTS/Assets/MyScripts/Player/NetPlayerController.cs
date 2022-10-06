@@ -15,7 +15,7 @@ public class NetPlayerController : MonoBehaviour,INetPlayer
 	
 	private void OnEnable()
 	{
-		Debug.Log(NetID);
+		Debug.Log("网络ID为:" + NetID);
 	}
     
 	private void Update()

@@ -19,6 +19,7 @@ public class MsgHandler
     private const int ID_NETMSG_REQUIRE = 1006;
     private const int ID_NETMSG_MULNETID = 1007;
     private const int ID_NETMSG_MATCHGAME = 1009;
+    private const int ID_NETMSG_GAMESTART = 1010;
     private const int ID_NETMSG_RESPONSE = 1999;
     
     #region RESPONSEID_USER
@@ -52,6 +53,7 @@ public class MsgHandler
         Register(ID_NETMSG_REQUIRE,typeof(RequireUpdateNetMsg),RequireUpdateMsgHandler);
         Register(ID_NETMSG_MULNETID,typeof(RequestMulNetIDMsg),MulNetIDMsgHandler);
         Register(ID_NETMSG_MATCHGAME,typeof(MatchGameNetMsg),MatchGameMsgHandler);
+        Register(ID_NETMSG_GAMESTART,typeof(GameStartNetMsg),GameStartMsgHandler);
     }
 
     private void Register(int msgID,Type msgType,UnityAction<INetMsg> action)
@@ -161,6 +163,17 @@ public class MsgHandler
             GameManager.Instance.MatchingID = matchGameMsg.MatchingPoolID;
             Debug.Log($"加入到{matchGameMsg.MatchingPoolID}匹配池中等待匹配完成");
         }
+    }
+
+    private void GameStartMsgHandler(INetMsg msg)
+    {
+        var gameStartMsg = msg as GameStartNetMsg;
+        Debug.Log("匹配完成，开始对战");
+        for (int i = 0; i < gameStartMsg.PlayerCount; i++)
+        {
+            Debug.Log($"房间第{i}位玩家网络ID为{gameStartMsg.RoomPlayerNetIDList[i]}");
+        }
+       
     }
     
 }
