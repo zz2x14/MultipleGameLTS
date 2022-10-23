@@ -20,6 +20,7 @@ public class MsgHandler
     private const int ID_NETMSG_MULNETID = 1007;
     private const int ID_NETMSG_MATCHGAME = 1009;
     private const int ID_NETMSG_GAMESTART = 1010;
+    private const int ID_NETMSG_SWITCH = 1011;
     private const int ID_NETMSG_RESPONSE = 1999;
     
     #region RESPONSEID_USER
@@ -54,6 +55,7 @@ public class MsgHandler
         Register(ID_NETMSG_MULNETID,typeof(RequestMulNetIDMsg),MulNetIDMsgHandler);
         Register(ID_NETMSG_MATCHGAME,typeof(MatchGameNetMsg),MatchGameMsgHandler);
         Register(ID_NETMSG_GAMESTART,typeof(GameStartNetMsg),GameStartMsgHandler);
+        Register(ID_NETMSG_SWITCH,typeof(SwitchNetMsg),SwitchMsgHandler);
     }
 
     private void Register(int msgID,Type msgType,UnityAction<INetMsg> action)
@@ -107,7 +109,6 @@ public class MsgHandler
         var bornMsg = msg as BornNetMsg;
         if (bornMsg.IsNetPlayer)
         {
-            
             GameManager.Instance.NewNetPlayer(msg as BornNetMsg);
         }
     }
@@ -122,6 +123,7 @@ public class MsgHandler
         }
         
         UserUI.Instance.NetID = netIDMsg.SelfNetID;
+        Debug.Log("获得网络ID：" + netIDMsg.SelfNetID);
     }
 
     private void TransformMsgHandler(INetMsg msg)
@@ -174,6 +176,13 @@ public class MsgHandler
             Debug.Log($"房间第{i}位玩家网络ID为{gameStartMsg.RoomPlayerNetIDList[i]}");
         }
        
+    }
+
+    private void SwitchMsgHandler(INetMsg msg)
+    {
+        var switchNetMsg = msg as SwitchNetMsg;
+        
+        GameManager.Instance.SwitchGameObjectState(switchNetMsg);
     }
     
 }

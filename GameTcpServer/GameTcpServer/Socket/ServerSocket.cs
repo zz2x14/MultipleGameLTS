@@ -281,7 +281,6 @@ public class ServerSocket
                 while (!netGoDic.ContainsKey(randomNetID))
                 {
                     randomNetID = random.Next(NETGOID_MIN, NETGOID_MAX);
-                    Console.WriteLine(randomNetID);
                     netGoDic.Add(randomNetID,null);
 
                     requestMulNetIdMsg.GetSingleNetID(randomNetID);

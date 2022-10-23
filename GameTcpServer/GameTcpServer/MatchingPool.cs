@@ -12,7 +12,7 @@ public class MatchingPool
     private static int PoolID;
     public int CurPoolID { get; private set; } = 0;
     
-    private const int MAXPLAYERCOUNT = 1;
+    private const int MAXPLAYERCOUNT = 2;
     private int curPlayerCount;
     private int targetPlayerCount;
 

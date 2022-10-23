@@ -14,12 +14,12 @@ GameObject:
   - component: {fileID: -4700326392139146975}
   - component: {fileID: -5488908217635566924}
   m_Layer: 8
-  m_Name: PlayerStandardBullet
+  m_Name: Prefab_PlayerBullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &713980690636952973
 Transform:
   m_ObjectHideFlags: 0
@@ -136,5 +136,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ee3072ef9e228742ae16566d38bb32f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 15
   lifeCycle: 1.5

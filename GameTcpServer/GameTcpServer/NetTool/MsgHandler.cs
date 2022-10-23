@@ -15,6 +15,7 @@
      private const int ID_NETMSG_MULNETID = 1007;
      private const int ID_NETMSG_MATCHGAME = 1009;
      private const int ID_NETMSG_GAMESTART = 1010;
+     private const int ID_NETMSG_SWITCH = 1011;
      private const int ID_NETMSG_RESPONSE = 1999;
      
      public const int ID_RESPONSE_LOGIN = 1;
@@ -40,6 +41,7 @@
          Register(ID_NETMSG_REQUIRE, typeof(RequireUpdateNetMsg), RequireUpdateMsgHandler);
          Register(ID_NETMSG_MULNETID,typeof(RequestMulNetIDMsg),MulNetIDMsgHandler);
          Register(ID_NETMSG_MATCHGAME,typeof(MatchGameNetMsg),MatchGameMsgHandler);
+         Register(ID_NETMSG_SWITCH,typeof(SwitchNetMsg),SwitchMsgHandler);
      }
 
      private void Register(int netMsgID, Type msgType, Action<INetMsg, ClientSocket> action)
@@ -132,6 +134,7 @@
          Console.WriteLine("目标客户端ID：" + client.ClientID);
      }
 
+     //TODO：不应该让客户端发送这个信息 会出现一个客户端多次接收的问题 - 匹配成功 - 发送该消息 - 客户端进行创建
      private void MulNetIDMsgHandler(INetMsg msg, ClientSocket client)
      {
          var requestMulNetIdMsg = msg as RequestMulNetIDMsg;
@@ -162,5 +165,10 @@
         //客户端暂时不会向服务器发送游戏开始消息
      }
 
-   
+     private void SwitchMsgHandler(INetMsg msg,ClientSocket client)
+     {
+         var switchNetMsg = msg as SwitchNetMsg;
+         
+         server.BroadCast(switchNetMsg,client.ClientID);
+     }
  }

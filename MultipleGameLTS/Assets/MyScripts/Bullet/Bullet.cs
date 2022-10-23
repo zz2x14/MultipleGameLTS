@@ -9,6 +9,8 @@ public abstract class Bullet : MonoBehaviour,INetGameObject
 {
     public int NetID { get; set; }
     
+    public SwitchNetMsg SwitchNetMsg { get; set; }
+
     [SerializeField] protected float speed;
     [SerializeField] protected float lifeCycle;
 
@@ -18,38 +20,30 @@ public abstract class Bullet : MonoBehaviour,INetGameObject
     private Rigidbody2D rb;
 
     private WaitForSeconds LifeCycleWFS;
-    
-    public int MyNetID { get; set; }
 
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         
         LifeCycleWFS = new WaitForSeconds(lifeCycle);
+
+        SwitchNetMsg = new SwitchNetMsg {GONetID = NetID};
     }
 
     protected virtual void OnEnable()
     {
+        NetMgr.Instance.BeginSend(SwitchNetMsg);
+        
         StartCoroutine(nameof(NonActiveCor));
         StartCoroutine(MoveCor(GetMoveDir()));
     }
-
-    //不应该在让客户端主动通过对象池创建备用对象 而是服务器发送命令 主动创建
-    // private void SendBornMsg()
-    // {
-    //     BornNetMsg bornNetMsg = new BornNetMsg
-    //     {
-    //         DoDisable = false
-    //     };
-    //     
-    //     NetMgr.Instance.BeginSend(bornNetMsg);
-    // }
+    
 
     IEnumerator MoveCor(Vector3 dir)
     {
         while (gameObject.activeSelf)
         {
-            rb.velocity = dir * speed * Time.deltaTime;
+            rb.velocity = dir * speed;
             yield return null;
         }
     }
@@ -65,17 +59,20 @@ public abstract class Bullet : MonoBehaviour,INetGameObject
     {
         return Vector2.right;
     }
-
+    
     private void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.CompareTag("Enemy"))
-        {
-            gameObject.SetActive(false);
-        }
+        // if (col.gameObject.CompareTag("Enemy"))
+        // {
+        //     gameObject.SetActive(false);
+        // }
     }
 
     private void OnDisable()
     {
+        SwitchNetMsg.DoEnable = false;
+        NetMgr.Instance.BeginSend(SwitchNetMsg);
+        
         StopAllCoroutines();
     }
     

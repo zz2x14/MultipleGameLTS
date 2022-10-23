@@ -60,7 +60,7 @@ public class SceneMgr : MonoBehaviour
         GameManager.Instance.NewNetPlayer(selfNetID);
         
         //假设此时加载前往战斗场景 - 对象池生成子弹 - 发送消息
-        //GameManager.Instance.StartBattle();
+        GameManager.Instance.StartBattle();
         
         GameManager.Instance.GameState = GameState.Lobby;
         

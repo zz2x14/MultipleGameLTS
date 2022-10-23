@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     }
 
     private Dictionary<int, GameObject> netPlayerGODic = new Dictionary<int, GameObject>();
-    private Dictionary<int, GameObject> netGameObjects = new Dictionary<int, GameObject>();
+    private Dictionary<int, GameObject> netGameObjectDic = new Dictionary<int, GameObject>();
 
     //TODO:实际情况下会在线玩家需要一个单独的列表
     [SerializeField] private List<INetPlayer> netPlayerList = new List<INetPlayer>();
@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     //Sign:Resources加载文件不需要后缀 
     public const string PATH_PREFAB_PLAYER = "Prefabs/Prefab_NetPlayer";
     public const string PATH_PREFAB_UI_MATCHGAME = "Prefabs/Prefab_Cv_MatchGame";
+    public const string PATH_PREFAB_BULLET = "Prefabs/Prefab_PlayerBullet";
    
 	public int MatchingID { get; set; }
    
@@ -103,8 +104,7 @@ public class GameManager : MonoBehaviour
             var prefab = Resources.Load<GameObject>(PATH_PREFAB_PLAYER);
             var netGO = Instantiate(prefab, Vector3.zero, Quaternion.identity);
             netPlayerGODic.Add(selfNetID,netGO);
-
-            netGO.AddComponent<TransformNetUpdateTool>();
+            
             netGO.AddComponent<NetPlayerController>().NetID = selfNetID;
             netPlayerList.Add(netGO.GetComponent<INetPlayer>()); 
             netGO.GetComponent<SpriteRenderer>().color = UserUI.Instance.curRoleColor;
@@ -154,6 +154,19 @@ public class GameManager : MonoBehaviour
         };
 
         NetMgr.Instance.BeginSend(requestMulNetIDMsg);
+    }
+
+    public void SwitchGameObjectState(SwitchNetMsg switchNetMsg)
+    {
+        if (netGameObjectDic.ContainsKey(switchNetMsg.GONetID))
+        {
+            netGameObjectDic[switchNetMsg.GONetID].SetActive(switchNetMsg.DoEnable);
+        }
+        else
+        {
+            //TODO:没有则要生成一个新的
+            Debug.LogError($"当前客户端没有网络Id为{switchNetMsg.GONetID}的游戏对象");
+        }
     }
 }
 

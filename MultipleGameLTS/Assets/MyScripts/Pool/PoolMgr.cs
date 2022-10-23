@@ -30,6 +30,8 @@ public class PoolMgr : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         poolDic = new Dictionary<GameObject, Pool>();
+        
+        InitPoolMgr();
     }
 
     private void CheckPoolRealSize(Pool[] pools)
@@ -90,18 +92,42 @@ public class PoolMgr : MonoBehaviour
 
     public GameObject Release(GameObject prefab)
     {
-        return poolDic[prefab].GetPreparedGO();
+        if (poolDic.ContainsKey(prefab))
+        {
+            return poolDic[prefab].GetPreparedGO();
+        }
+        
+        Debug.LogError($"对象池中不包含该预制体{prefab.name}");
+        return null;
     }
     public GameObject Release(GameObject prefab,Vector3 pos)
     {
-        return poolDic[prefab].GetPreparedGO(pos);
+        if (poolDic.ContainsKey(prefab))
+        {
+            return poolDic[prefab].GetPreparedGO(pos);
+        }
+        
+        Debug.LogError($"对象池中不包含该预制体{prefab.name}");
+        return null;
     }
     public GameObject Release(GameObject prefab,Vector3 pos,Quaternion rotation)
     {
-        return poolDic[prefab].GetPreparedGO(pos,rotation);
+        if (poolDic.ContainsKey(prefab))
+        {
+            return poolDic[prefab].GetPreparedGO(pos,rotation);
+        }
+        
+        Debug.LogError($"对象池中不包含该预制体{prefab.name}");
+        return null;
     }
     public GameObject Release(GameObject prefab, Vector3 pos, Quaternion rotation, Vector3 scale)
     {
-        return poolDic[prefab].GetPreparedGO(pos, rotation, scale);
+        if (poolDic.ContainsKey(prefab))
+        {
+            return poolDic[prefab].GetPreparedGO(pos, rotation, scale);
+        }
+        
+        Debug.LogError($"对象池中不包含该预制体{prefab.name}");
+        return null;
     }
 }

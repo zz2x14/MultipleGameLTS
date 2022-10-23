@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //TODO:对象池池子size的数量也应该是根据写好的数值动态获取的
+//TODO:通过配置表配好的
 [System.Serializable]
 public class Pool
 {
